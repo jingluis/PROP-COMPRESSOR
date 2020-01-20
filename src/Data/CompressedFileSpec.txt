@@ -1,0 +1,31 @@
+| T | S | [F] | O | [A] |
+| ........DATA......... |
+
+T: 1 byte
+    it's a folder or a file: file = 0x00, folder = 0xFF
+S: 4 bytes (encoding an int)
+    size of the compressed data below the header, in bytes
+[F]: X bytes (encoding an String), ending in '\0'
+    name of the original file or folder
+
+IF IT IS A FILE:
+    O: 4 bytes (encoding an int)
+        size of the original uncompressed data below the header, in bytes
+    [A]: X bytes (encoding an String), ending in '\0'
+        name of the algorithm used to compress the compressed data
+
+    ...DATA...: compressed data
+
+IF IT IS A FOLDER:
+    O: 0 bytes (not usable)
+    [A]: 0 bytes (not usable)
+
+    ...DATA...: recursive compressed files
+
+    -------------------------
+    | T | S | [F] | O | [A] |
+    | ........DATA......... |
+    -------------------------
+            ........
+    -------------------------
+
